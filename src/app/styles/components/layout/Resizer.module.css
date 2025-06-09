@@ -1,0 +1,31 @@
+.resizer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 8px;
+  top: 20px;
+  bottom: 20px;
+  background-color: transparent;
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.resizer::after {
+  content: "";
+  width: 2px;
+  height: 100%;
+  background-color: #e5e7eb;
+  border-radius: 2px;
+}
+
+.resizer:hover,
+.resizer.isResizing {
+  background-color: rgba(229, 231, 235, 0.2);
+}
+
+.resizer:hover::after,
+.resizer.isResizing::after {
+  background-color: #3b82f6;
+  width: 2px;
+}

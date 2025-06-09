@@ -1,0 +1,63 @@
+.timePickerContainer {
+  flex: 1;
+  min-width: 140px;
+}
+
+.timeInput {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: min-content;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: white;
+  height: 42px;
+  box-sizing: border-box;
+}
+
+.timeInputFields {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeValue {
+  width: 32px;
+  text-align: center;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: 2px;
+  border: none;
+  appearance: textfield;
+}
+
+.timeValue:focus {
+  outline: none;
+  background-color: #f3f4f6;
+}
+
+.periodSelect {
+  padding: 2px 4px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  border: none;
+  background: none;
+  appearance: none;
+}
+
+.periodSelect:focus {
+  outline: none;
+  background-color: #f3f4f6;
+  border-radius: 2px;
+}
+
+.periodSelect {
+  background-image: url("/chevron-down.svg");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  background-size: 12px;
+  padding-right: 16px;
+}

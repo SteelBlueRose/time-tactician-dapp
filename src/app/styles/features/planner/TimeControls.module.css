@@ -1,0 +1,25 @@
+.operationsContainer {
+  margin-bottom: 16px;
+}
+
+.operationsButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.controlPanel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #ebf5ff;
+  width: 100%;
+  height: 56px;
+}
+
+.recurrenceSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}

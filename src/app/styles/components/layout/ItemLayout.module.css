@@ -1,0 +1,277 @@
+.controlsRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.itemsList {
+  overflow-y: auto;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.itemBlock {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemBlock.completed {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.itemBlock.completed .itemTitle {
+  color: #6b7280;
+  text-decoration: line-through;
+}
+
+.itemBlock:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.itemBlock.selected {
+  background-color: #f3f4f6;
+  border-color: #3b82f6;
+}
+
+.itemContent {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-wrap: pretty;
+  max-width: 100%;
+  line-height: 1.4;
+}
+
+.badgesContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemTitle {
+  font-size: 16px;
+  color: #1f2937;
+  flex: 1;
+  margin-right: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+/* Sub-items */
+.subItemsSection {
+  margin-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.subItemsSection h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: #374151;
+}
+
+.subItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subItem {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.subItemContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.subItemContent h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.subItemPoints {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.noSubItems {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.subItemRow {
+  position: relative;
+  padding-left: 36px;
+}
+
+/* Vertical line */
+.subItemRow::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: -8px;
+  bottom: 8px;
+  width: 2px;
+  background-color: #d7d9dd;
+}
+
+/* Horizontal line */
+.subItemRow::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  width: 8px;
+  height: 2px;
+  background-color: #d7d9dd;
+}
+
+.subItemsContainer {
+  position: relative;
+  padding-left: 8px;
+}
+
+.toggleSubItems {
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.toggleSubItems:hover {
+  color: #3b82f6;
+}
+
+.toggleSubItems.expanded {
+  transform: rotate(90deg);
+}
+
+.lastSubItem::before {
+  height: calc(50% + 8px);
+  bottom: auto;
+}
+
+.selectedItemTitle,
+.selectedItemDescription,
+.metadataItem {
+  user-select: text;
+  cursor: text;
+}
+
+.badgesContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pendingLabel {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #eff6ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pendingUpdate {
+  opacity: 0.7;
+  border: 1px dashed #3b82f6;
+}
+
+.pendingCompletion {
+  opacity: 0.7;
+  border: 1px dashed #22c55e;
+}
+
+.selectedItemHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.selectedItemTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-right: 12px;
+  margin-bottom: 0;
+}
+
+.selectedItemDescription {
+  font-size: 16px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.itemMetadata {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.metadataItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 8px;
+  background-color: #f9fafb;
+  border-radius: 6px;
+}
+
+.metadataItem svg {
+  color: #3b82f6;
+}

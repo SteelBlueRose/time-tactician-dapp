@@ -1,0 +1,22 @@
+.durationDialog {
+  max-width: 300px;
+}
+
+.durationInputs {
+  margin: 20px 0;
+}
+
+.durationRow {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.numberInput {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  text-align: center;
+  margin-right: 5px;
+}

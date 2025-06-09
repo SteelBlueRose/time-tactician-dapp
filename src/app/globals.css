@@ -1,0 +1,258 @@
+@import "./styles/base64-fonts.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --max-width: 1100px;
+  --border-radius: 12px;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --w3m-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+html,
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Link Reset */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.button-primary {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 550;
+  transition: background-color 0.2s ease;
+}
+
+.button-primary:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.button-primary:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.button-delete {
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.button-delete:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+/* Full width primary blue button */
+.action-button {
+  width: 100%;
+  height: 48px;
+  margin-bottom: 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  will-change: width;
+}
+
+.action-button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.action-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+/* Styles for Show/Hide Completed, etc */
+.control-button {
+  flex: 1;
+  height: 48px;
+  background-color: white;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-button.active {
+  background-color: #2563eb;
+  border-color: #1d4ed8;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.control-button.active:hover {
+  background-color: #1d4ed8;
+}
+
+/* Square button for completion */
+.check-button {
+  min-width: 24px;
+  height: 24px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.check-button:hover {
+  border-color: #3b82f6;
+}
+
+.check-button:disabled:hover {
+  border-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.check-button.completed {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Small square button with icon */
+.icon-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-action-button:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.icon-action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon-action-button.delete:hover:not(:disabled) {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.icon-action-button.success:hover:not(:disabled) {
+  background: #dcfce7;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+/* Navigation Controls */
+.time-nav-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-nav-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  color: #3b82f6;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.time-nav-button:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Basic button with icon */
+.operation-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.operation-button:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.operation-button.delete {
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.operation-button.delete:hover {
+  background-color: #fee2e2;
+}
+
+/* Add Button Layout Modifier */
+.button-auto-left {
+  margin-left: auto;
+  gap: 4px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 400;
+}

@@ -1,0 +1,15 @@
+.rewardPoints {
+  margin-right: 0.5rem;
+}
+
+.rewardValue {
+  color: #ffffff;
+  margin-right: 4px;
+  cursor: default;
+}
+
+.rewardLabel {
+  color: #ffffff;
+  font-size: 0.875rem;
+  cursor: default;
+}

@@ -1,0 +1,148 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  width: 64px;
+  min-width: 64px;
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+.expanded {
+  width: clamp(256px, 14vw, 400px);
+}
+
+.collapsed {
+  width: 64px;
+  min-width: 64px;
+}
+
+.topStrip {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3b82f6;
+}
+
+.pinContainer {
+  padding-right: 16px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.pinIcon {
+  cursor: pointer;
+}
+
+.pinIcon:hover {
+  opacity: 0.8;
+}
+
+.pinIcon {
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.pinIcon.clickable {
+  pointer-events: auto;
+}
+
+.content {
+  height: calc(100% - 64px);
+  background-color: #f3f4f6;
+}
+
+.logoContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.logoContainer a {
+  position: absolute;
+  left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.expandedLogo {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.collapsedLogo {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menuItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 8px;
+  text-decoration: none;
+  color: #000000;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.menuItem:hover {
+  background-color: #e5e7eb;
+}
+
+.menuItem.active {
+  background-color: #dbeafe;
+  border-left: 4px solid #3b82f6;
+}
+
+.menuItem.active .menuIcon {
+  left: 14px;
+  color: #3b82f6;
+}
+
+.menuItem.active .menuText {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 18px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menuText {
+  font-weight: 500;
+  font-size: 16px;
+  padding-left: 40px;
+  white-space: nowrap;
+  opacity: 0;
+  width: 0;
+  transition: opacity 0.1s ease-in-out, width 0.2s ease-in-out;
+}
+
+.expanded .menuText {
+  opacity: 1;
+  width: auto;
+}

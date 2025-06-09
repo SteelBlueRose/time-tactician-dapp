@@ -1,0 +1,55 @@
+.syncButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 36px;
+}
+
+.syncButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  height: 36px;
+  cursor: pointer;
+}
+
+.syncButton:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.syncButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.syncIcon {
+  position: relative;
+  top: 1px;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #4b5563;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  height: 36px;
+}
+
+.resetButton:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  color: #ef4444;
+  border-color: #fecaca;
+}

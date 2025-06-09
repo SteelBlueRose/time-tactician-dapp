@@ -1,0 +1,101 @@
+.datePickerContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  gap: 4px;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.weekDays > div {
+  padding: 8px 0;
+  width: 40px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  gap: 4px;
+  justify-content: center;
+  padding: 4px;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.day:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.highlightedDay {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+}
+
+.selectedDay {
+  background-color: #3b82f6;
+  color: white;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.selectedDay:hover {
+  background-color: #2563eb !important;
+}
+
+.monthNavigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  margin-bottom: 12px;
+}
+
+.monthNavigation span {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.emptyDay {
+  aspect-ratio: 1;
+}
+
+.disabledDay {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+  border-color: #e5e7eb !important;
+}

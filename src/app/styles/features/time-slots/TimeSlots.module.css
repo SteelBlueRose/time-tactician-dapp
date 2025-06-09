@@ -1,0 +1,27 @@
+.typeBreak {
+  background-color: #e9d5ff;
+  color: #6b21a8;
+}
+
+.typeWorkingHours {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.buttonsContainer .action-button {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.buttonsContainer .control-button {
+  flex-shrink: 0;
+}

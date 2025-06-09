@@ -1,0 +1,68 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.itemState {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.selectedItemHeader .itemState {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+}
+
+.stateCreated {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.stateInProgress {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.stateCompleted {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.stateOverdue {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.priorityLow {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.priorityMedium {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.priorityHigh {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.priorityCritical {
+  background-color: #7f1d1d;
+  color: #ffffff;
+}

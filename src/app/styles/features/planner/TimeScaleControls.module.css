@@ -1,0 +1,22 @@
+.scaleControls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.scaleSelect {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 120px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+

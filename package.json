@@ -1,0 +1,54 @@
+{
+  "name": "time-manager",
+  "homepage": ".",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "npx next dev",
+    "build": "npx next build",
+    "start": "npx next start",
+    "lint": "npx next lint"
+  },
+  "dependencies": {
+    "@near-js/providers": "0.2.2",
+    "@near-wallet-selector/bitte-wallet": "8.9.14",
+    "@near-wallet-selector/core": "8.9.14",
+    "@near-wallet-selector/ethereum-wallets": "8.9.14",
+    "@near-wallet-selector/here-wallet": "8.9.14",
+    "@near-wallet-selector/ledger": "8.9.14",
+    "@near-wallet-selector/modal-ui": "8.9.14",
+    "@near-wallet-selector/my-near-wallet": "8.9.14",
+    "@near-wallet-selector/sender": "8.9.14",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.474.0",
+    "near-api-js": "4.0.3",
+    "next": "^15.3.0",
+    "next-remote-watch": "^2.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "secp256k1": "5.0.1",
+    "ws": "8.18.0"
+  },
+  "overrides": {
+    "@near-wallet-selector/ethereum-wallets": {
+      "near-api-js": "4.0.3",
+      "secp256k1": "5.0.1",
+      "ws": "8.18.0"
+    },
+    "@near-js/crypto": {
+      "secp256k1": "5.0.1"
+    },
+    "secp256k1": "5.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "encoding": "0.1.13",
+    "eslint": "9.14.0",
+    "eslint-config-next": "^15.3.0",
+    "pino-pretty": "13.0.0"
+  }
+}
