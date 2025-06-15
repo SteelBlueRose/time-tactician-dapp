@@ -74,11 +74,9 @@ export default function PlannerPage() {
       if (response.Success) {
         setTimeSlots(response.Success);
       }
-
     } catch (error) {
       console.error("Error loading time slots:", error);
       setError("Failed to load time slots");
-
     } finally {
       hideLoading();
     }
@@ -96,13 +94,53 @@ export default function PlannerPage() {
       });
 
       if (response.Success) {
-        setTasks(response.Success);
-      }
+        let allTasks = response.Success;
 
+        try {
+          const habitsResponse = await wallet.viewMethod({
+            contractId: HelloNearContract,
+            method: "get_habits_by_owner",
+            args: { owner_id: signedAccountId },
+          });
+
+          if (habitsResponse.Success) {
+            const habitsByTaskId = {};
+            habitsResponse.Success.forEach((habit) => {
+              habitsByTaskId[habit.task_id] = habit;
+            });
+
+            allTasks = allTasks.map((task) => {
+              const habit = habitsByTaskId[task.id];
+              if (habit) {
+                return {
+                  ...task,
+                  isHabit: true,
+                  streak: habit.streak,
+                  habitId: habit.id,
+                  recurrence: habit.recurrence,
+                  lastCompleted: habit.last_completed,
+                  nextDue: habit.last_completed
+                    ? Number(habit.last_completed) +
+                      (habit.recurrence.interval || 1) *
+                        24 *
+                        60 *
+                        60 *
+                        1000000000
+                    : task.deadline,
+                };
+              }
+              return { ...task, isHabit: false };
+            });
+          }
+        } catch (habitError) {
+          console.error("Error loading habits:", habitError);
+        }
+
+        setTasks(allTasks);
+      }
     } catch (error) {
       console.error("Error loading tasks:", error);
       setError("Failed to load tasks");
-
     } finally {
       hideLoading();
     }
@@ -142,7 +180,6 @@ export default function PlannerPage() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-
   }, [showFilters]);
 
   const [currentWeek, setCurrentWeek] = useState(
@@ -244,14 +281,105 @@ export default function PlannerPage() {
           "Need at least one working hours time slot to create a schedule",
         type: "error",
       });
-      
+
       setTimeout(() => setNotification(null), 3000);
       return;
     }
 
-    let tasksToSchedule = tasks.filter(
-      (task) => task.state !== "Completed" && !task.isHabit
+    const currentTime = Date.now();
+    const roundToMinutes = 5;
+    const timeBufferMinutes = 0;
+
+    const roundedCurrentTime =
+      Math.ceil(currentTime / (roundToMinutes * 60 * 1000)) *
+      (roundToMinutes * 60 * 1000);
+    const bufferTime = roundedCurrentTime + timeBufferMinutes * 60 * 1000;
+
+    const preliminaryTasks = tasks.filter(
+      (task) =>
+        task.state !== "Completed" &&
+        (!task.subtask_ids || task.subtask_ids.length === 0)
     );
+
+    const totalTaskDuration = preliminaryTasks.reduce((sum, task) => {
+      if (
+        !includeScheduledTasks &&
+        task.time_slots &&
+        task.time_slots.length > 0
+      ) {
+        return sum;
+      }
+      return sum + (task.estimated_time || 0);
+    }, 0);
+
+    const totalTaskDurationMs = totalTaskDuration * 60 * 1000;
+
+    let totalAvailableTimeMs = 0;
+    let daysChecked = 0;
+    let searchEndTime = bufferTime;
+
+    const startDate = new Date(bufferTime);
+    startDate.setHours(0, 0, 0, 0);
+
+    while (totalAvailableTimeMs < totalTaskDurationMs && daysChecked < 14) {
+      const dayDate = new Date(startDate);
+      dayDate.setDate(startDate.getDate() + daysChecked);
+      const dayStart = dayDate.getTime();
+      const dayEnd = new Date(dayDate).setHours(23, 59, 59, 999);
+      const daySearchStart = daysChecked === 0 ? bufferTime : dayStart;
+
+      let dayAvailableTimeMs = 0;
+
+      workingHoursSlots.forEach((slot) => {
+        const slotRecurrence = slot.recurrence;
+        const dayOfWeek = dayDate.toLocaleDateString("en-US", {
+          weekday: "long",
+        });
+
+        if (
+          slotRecurrence.frequency === "Daily" ||
+          (slotRecurrence.specific_days &&
+            slotRecurrence.specific_days.includes(dayOfWeek))
+        ) {
+          const slotStart = new Date(dayDate);
+          slotStart.setHours(Math.floor(slot.start_minutes / 60));
+          slotStart.setMinutes(slot.start_minutes % 60);
+          slotStart.setSeconds(0);
+          slotStart.setMilliseconds(0);
+
+          const slotEnd = new Date(slotStart);
+          slotEnd.setMinutes(slotStart.getMinutes() + slot.duration);
+
+          const slotStartTime = slotStart.getTime();
+          const slotEndTime = slotEnd.getTime();
+
+          if (slotEndTime > daySearchStart && slotStartTime < dayEnd) {
+            const adjustedStart = Math.max(slotStartTime, daySearchStart);
+            const adjustedEnd = Math.min(slotEndTime, dayEnd);
+            dayAvailableTimeMs += adjustedEnd - adjustedStart;
+          }
+        }
+      });
+
+      totalAvailableTimeMs += dayAvailableTimeMs;
+      searchEndTime = dayEnd;
+      daysChecked++;
+    }
+
+    let tasksToSchedule = tasks.filter((task) => {
+      if (task.state === "Completed") return false;
+
+      if (task.subtask_ids && task.subtask_ids.length > 0) return false;
+
+      if (task.isHabit) {
+        const habitDeadline = task.nextDue
+          ? Number(task.nextDue) / 1000000
+          : Number(task.deadline) / 1000000;
+        return habitDeadline >= bufferTime && habitDeadline <= searchEndTime;
+      }
+
+      return true;
+    });
 
     if (!includeScheduledTasks) {
       tasksToSchedule = tasksToSchedule.filter(
@@ -279,11 +407,11 @@ export default function PlannerPage() {
       const result = runScheduler(tasksToSchedule, timeSlots, {
         includeScheduledTasks: includeScheduledTasks,
         coefficients: {
-          alpha: 0.3, // Фрагментація (30% ваги)
-          beta: 0.3, // Пріоритет-час (30% ваги)
-          gamma: 0.1, // Часовий діапазон (10% ваги)
-          delta: 0.1, // Дедлайни (10% ваги)
-          epsilon: 0.1, // Розриви (10% ваги)
+          alpha: 0.3,
+          beta: 0.3,
+          gamma: 0.1,
+          delta: 0.1,
+          epsilon: 0.1,
         },
       });
 
@@ -304,7 +432,6 @@ export default function PlannerPage() {
 
       setOptimizedSchedule(result);
       setShowSmartSchedulePreview(true);
-
     } catch (error) {
       console.error("Error in smart scheduling:", error);
 
@@ -590,7 +717,7 @@ export default function PlannerPage() {
           </div>
         )}
       </div>
-      
+
       {error && (
         <div className={errorStyles.container}>
           <AlertCircle size={16} />

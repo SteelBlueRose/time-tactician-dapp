@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## run the development server
 
-!!!Fast Refresh is working only in powershell.
+// Fast Refresh is working only in powershell.
 
 ```bash
 npm run dev
@@ -10,5 +10,8 @@ npm run dev
 
 ## build:
 
-!!! WSL only
+// WSL only
+
+```bash
 npm run build
+```

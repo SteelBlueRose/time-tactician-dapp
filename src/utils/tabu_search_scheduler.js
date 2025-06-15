@@ -6,7 +6,7 @@ function tabuSearchScheduler(scenario, options = {}) {
     },
     initialSchedule: {
       useGreedySorting: true,
-      timeBufferMinutes: 5,
+      timeBufferMinutes: 0,
       roundToMinutes: 5,
     },
     priorityValues: {
@@ -70,17 +70,16 @@ function tabuSearchScheduler(scenario, options = {}) {
         return minutes * TIME_CONSTANTS.MILLISECONDS_PER_MINUTE;
       },
 
-      roundToFiveMinutes(timestamp, roundUp = false) {
+      roundToMinutes(
+        timestamp,
+        roundUp = false,
+        minutes = config.initialSchedule.roundToMinutes
+      ) {
+        const minutesMs = minutes * TIME_CONSTANTS.MILLISECONDS_PER_MINUTE;
         if (roundUp) {
-          return (
-            Math.ceil(timestamp / TIME_CONSTANTS.FIVE_MINUTES_MS) *
-            TIME_CONSTANTS.FIVE_MINUTES_MS
-          );
+          return Math.ceil(timestamp / minutesMs) * minutesMs;
         }
-        return (
-          Math.floor(timestamp / TIME_CONSTANTS.FIVE_MINUTES_MS) *
-          TIME_CONSTANTS.FIVE_MINUTES_MS
-        );
+        return Math.floor(timestamp / minutesMs) * minutesMs;
       },
     },
   };
@@ -209,9 +208,10 @@ function tabuSearchScheduler(scenario, options = {}) {
 
     const durationMs = utils.time.minutesToMillis(durationMinutes);
     const currentDate = utils.time.getCurrentDate();
-    const roundedCurrentTime = utils.time.roundToFiveMinutes(
+    const roundedCurrentTime = utils.time.roundToMinutes(
       currentDate.getTime(),
-      true
+      true,
+      config.initialSchedule.roundToMinutes
     );
     const effectiveSearchStart = Math.max(searchStartTime, roundedCurrentTime);
     const workingTimeSlots = expandRecurringTimeSlots(
@@ -332,10 +332,16 @@ function tabuSearchScheduler(scenario, options = {}) {
       blockedTimes.sort((a, b) => a.start - b.start);
     }
 
-    const startOfDay = new Date(startTime);
-    startOfDay.setHours(9, 0, 0, 0);
+    const roundedCurrentTime = utils.time.roundToMinutes(
+      startTime,
+      true,
+      config.initialSchedule.roundToMinutes
+    );
+    const bufferTime =
+      roundedCurrentTime +
+      utils.time.minutesToMillis(config.initialSchedule.timeBufferMinutes);
 
-    let currentEndTime = startOfDay.getTime();
+    let currentEndTime = bufferTime;
 
     for (const taskIndex of taskOrder) {
       const task = tasks[taskIndex];
@@ -386,7 +392,7 @@ function tabuSearchScheduler(scenario, options = {}) {
           segmentStart,
           segmentEndTime
         );
-        
+
         const segmentDuration = Math.min(remainingDuration, availableDuration);
         if (segmentDuration <= 0) {
           segmentStart = workingSlot.end;
@@ -465,11 +471,14 @@ function tabuSearchScheduler(scenario, options = {}) {
     }
 
     const startTime = utils.time.getCurrentTime();
-    const bufferTime = utils.time.roundToFiveMinutes(
-      startTime +
-        utils.time.minutesToMillis(schedulingOptions.timeBufferMinutes),
-      true
+    const roundedCurrentTime = utils.time.roundToMinutes(
+      startTime,
+      true,
+      config.initialSchedule.roundToMinutes
     );
+    const bufferTime =
+      roundedCurrentTime +
+      utils.time.minutesToMillis(config.initialSchedule.timeBufferMinutes);
 
     const endTime = calculateSearchEndTime(
       tasks,
@@ -928,11 +937,21 @@ function tabuSearchScheduler(scenario, options = {}) {
     const startIdx = Math.min(...affectedRange);
 
     let startTime;
-
     if (startIdx > 0 && tasks[startIdx - 1].scheduled_end_time) {
-      startTime = tasks[startIdx - 1].scheduled_end_time;
+      startTime = utils.time.roundToMinutes(
+        tasks[startIdx - 1].scheduled_end_time,
+        true,
+        config.initialSchedule.roundToMinutes
+      );
     } else {
-      startTime = utils.time.getCurrentTime();
+      const currentTime = utils.time.getCurrentTime();
+      startTime =
+        utils.time.roundToMinutes(
+          currentTime,
+          true,
+          config.initialSchedule.roundToMinutes
+        ) +
+        utils.time.minutesToMillis(config.initialSchedule.timeBufferMinutes);
     }
 
     const expandedWorkingHours = cachedTimeSlots.expandedWorkingHours;
@@ -1096,7 +1115,7 @@ function tabuSearchScheduler(scenario, options = {}) {
       startTime,
       searchEndTime
     );
-    
+
     const tabuSet = new Set();
     const tabuQueue = new Array(tabuTenure);
     const moveCache = new Map();

@@ -5,17 +5,7 @@ export function useSmartScheduler() {
   const scheduler = useMemo(() => tabuSearchScheduler, []);
 
   const formatTasksForScheduler = (tasks, timeSlots, options = {}) => {
-    let filteredTasks = tasks.filter(
-      (task) => task.state !== "Completed" && !task.isHabit
-    );
-
-    if (!options.includeScheduledTasks) {
-      filteredTasks = filteredTasks.filter(
-        (task) => !task.time_slots || task.time_slots.length === 0
-      );
-    }
-
-    const formattedTasks = filteredTasks.map((task) => ({
+    const formattedTasks = tasks.map((task) => ({
       id: task.id,
       title: task.title,
       duration: task.estimated_time,
@@ -77,7 +67,7 @@ export function useSmartScheduler() {
     ) {
       return null;
     }
-    
+
     const schedulerOptions = {
       includeScheduledTasks: options.includeScheduledTasks || false,
       coefficients: options.coefficients,
